@@ -4,6 +4,7 @@ const app = expores();
 const port = 3000;
 const cors = require("cors");
 const categoryRoutes = require('./routes/category');
+const brandRoutes = require('./routes/brand');
 
 app.use(cors());
 app.use(expores.json());
@@ -11,6 +12,7 @@ app.get("/",(req,res)=>{
     res.send('Server running');
 })
 app.use('/category',categoryRoutes);
+app.use('/brand', brandRoutes)
 
 async function connectDb(params) {
     await mongoose.connect("mongodb://localhost:27017",{
