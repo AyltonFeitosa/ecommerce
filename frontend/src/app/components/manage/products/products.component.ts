@@ -9,7 +9,6 @@ import { CategoryService } from '../../../services/category.service';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { Category } from '../../../types/category';
-import { productService } from '../../../services/brand.service';
 import { Brand } from '../../../types/brand';
 import { ProductService } from '../../../services/product.service';
 
@@ -21,7 +20,7 @@ import { ProductService } from '../../../services/product.service';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent {
-  displayedColumns: string[] = ['id', 'name', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'Price', 'discount', 'action'];
   dataSource: MatTableDataSource<Brand>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,7 +36,7 @@ export class ProductsComponent {
   } 
 
   private getServerData() {
-    this.productService.getBrands().subscribe((result) => {
+    this.productService.getAllProducts().subscribe((result) => {
       console.log(result);
       this.dataSource.data = result;
     });
@@ -56,6 +55,10 @@ export class ProductsComponent {
     }
   }
   delete(id: string){
-
+    console.log(id);
+    this.productService.deleteProduct(id).subscribe(result=>{
+      alert("Produto Deletado.");
+      this.getServerData();
+    })
   }
 }
