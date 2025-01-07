@@ -4,6 +4,8 @@ import { CategoriesComponent } from './components/manage/categories/categories.c
 import { CategoryFormComponent } from './components/manage/category-form/category-form.component';
 import { BrandsComponent } from './components/manage/brands/brands.component';
 import { BrandFormComponent } from './components/manage/brand-form/brand-form.component';
+import { ProductsComponent } from './components/manage/products/products.component';
+import { ProductFormComponent } from './components/manage/product-form/product-form.component';
 
 export const routes: Routes = [
     {
@@ -23,20 +25,27 @@ export const routes: Routes = [
         component: CategoryFormComponent,
     },
     {
-        path: "admin/brands", // Corrigido para plural
+        path: "admin/brands",
         component: BrandsComponent,
     },
     {
-        path: "admin/brands/add", // Corrigido para plural
+        path: "admin/brands/add",
         component: BrandFormComponent,
     },
     {
-        path: "admin/brands/:id", // Corrigido para plural
+        path: "admin/brands/:id",
         component: BrandFormComponent,
     },
     {
-        path: "**", // Fallback para rotas não encontradas
-        redirectTo: "",
-        pathMatch: "full",
+        path: "admin/products",
+        component: ProductsComponent,
+    },
+    {
+        path: "admin/products/add",
+        component: ProductFormComponent,
+    },
+    {
+        path: "admin/products/:id",
+        component: ProductFormComponent,
     },
 ];
