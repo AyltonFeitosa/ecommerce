@@ -1,5 +1,7 @@
 const { get } = require("mongoose");
 const Product = require("./../db/product");
+const mongoose = require('mongoose');
+
 
 async function addProduct(model) {
     let product = new Product({
@@ -41,4 +43,44 @@ async function getFeaturedProducts(){
     return (await featuredProducts).map(x=>x.toObject());
 }
 
-module.exports = {addProduct, updateProduct, deleteProduct, getAllProducts, getProduct, getNewProducts, getFeaturedProducts};
+async function getProductForListing(searchTerm,categoryId, brandId, page, pageSize, sortBy, sortOrder) {
+    if(!sortBy){
+        sortBy = 'price';
+    }
+    if(!sortOrder){
+        sortOrder=-1;
+    }
+    let queryFilter = {};
+    
+    if(searchTerm){
+        queryFilter.$or = [
+            { name: { $regex: searchTerm, $options: 'i'} },
+            { description: { $regex: searchTerm, $options: 'i'} },
+        ];
+    }
+    if(categoryId){
+        queryFilter.categoryId = categoryId;
+    }
+    if(brandId){
+        queryFilter.brandId = brandId;
+    }
+    console.log("queryFilter", queryFilter)
+    const products = await Product.find(queryFilter)
+    .sort({
+        [sortBy]: +sortOrder,
+    })
+    .skip((+page - 1) * +pageSize)
+    .limit(+pageSize);
+    return products.map((x) => x.toObject());
+}
+
+
+
+module.exports = {addProduct, 
+                  updateProduct, 
+                  deleteProduct, 
+                  getAllProducts, 
+                  getProduct, 
+                  getNewProducts, 
+                  getFeaturedProducts, 
+                  getProductForListing, };
