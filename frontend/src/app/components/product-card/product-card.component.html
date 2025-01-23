@@ -1,10 +1,16 @@
-<div class="border-r-4 w-full shadow-lg" [routerLink]="'product/'+product._id">
+<div class="border-r-4 w-full h-full flex flex-col shadow-lg cursor-pointer" [routerLink]="'/product/'+ product._id">
     <img [src]="product.images[0]" alt="Product Image" class="w-full h-52 object-cover">
-    <div class="p-4">
-        <h6 class="mb-2">{{product.name}}</h6>
-        <p>{{product.shortDescription}}</p>
-        <div class="flex justify-between items-center" >
-            <span class="text-2x1 font-bold">R${{product.price}}</span>
+    <div class="p-4 flex flex-1 flex-col justify-between h-full">
+        <div>
+            <h6 class="mb-2">{{product.name}}</h6>
+            <p>{{product.shortDescription}}</p>
+        </div>
+        <div class="flex justify-between items-baseline" >
+            <div class="flex gap-2 items-baseline">
+                <span class="!text-lg text-gray-400"><s>R${{product.price}}</s></span>
+                <span class="!text-xs text-orange-300">{{product.discount}}% OFF</span>
+                <span class="!text-lg text-green-500">R${{sellingPrice}}</span>
+            </div>
             <button mat-flat-button color="primary">Buy Now</button>
         </div>
     </div>

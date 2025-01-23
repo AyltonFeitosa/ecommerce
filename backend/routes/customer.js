@@ -1,6 +1,5 @@
 const express = require("express");
-const { getNewProducts, getProductForList, getProductForListing } = require("../handlers/product-handler");
-const { getFeaturedProducts} = require("../handlers/product-handler");
+const { getNewProducts, getProductForList, getProductForListing, getProduct, getFeaturedProducts } = require("../handlers/product-handler");
 const { getCategories } = require("../handlers/category-handler");
 const { getBrands } = require("../handlers/brand-handler");
 const router=express.Router();
@@ -37,6 +36,12 @@ router.get("/products", async (req,res)=>{
         sortOrder,        
     );
     res.send(products);
+})
+
+router.get("/product/:id", async (req,res)=>{
+    const id = req.params["id"];
+    const product = await getProduct(id);
+    res.send(product);
 })
 
 
