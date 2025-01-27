@@ -21,7 +21,17 @@
                 <span class="!text-x1 text-orange-300">{{product.discount}}% OFF</span>
                 <span class="!text-x1 text-green-500">R${{sellingPrice}}</span>
             </div>
-            <button mat-flat-button color="primary" class="shadow">Adicionar o carrinho</button>
+           <div class="flex gap-8">
+            <button mat-raised-button color="accent" class="flex items-center" (click)="addToWishList(product)">
+                @if (isInWishList(product)) {
+                    <mat-icon class="text-red-500">favorite</mat-icon> 
+                    <span>Remover da lista de Desejos</span>
+                }@else {
+                    <mat-icon class="text-red-500">favorite_border</mat-icon> <span>Adicionar a lista de Desejos</span>
+                }                
+            </button>
+            <button mat-raised-button color="primary" class="shadow">Adicionar ao carrinho</button>
+           </div>
         </div>
       </div>
     </div>

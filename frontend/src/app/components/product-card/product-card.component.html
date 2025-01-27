@@ -1,7 +1,7 @@
-<div class="border-r-4 w-full h-full flex flex-col shadow-lg cursor-pointer" [routerLink]="'/product/'+ product._id">
-    <img [src]="product.images[0]" alt="Product Image" class="w-full h-52 object-cover">
+<div class="border-r-4 w-full h-full flex flex-col shadow-lg cursor-pointer">
+    <img [src]="product.images[0]" alt="Product Image" class="w-full h-52 object-cover"  [routerLink]="'/product/'+ product._id">
     <div class="p-4 flex flex-1 flex-col justify-between h-full">
-        <div>
+        <div  [routerLink]="'/product/'+ product._id">
             <h6 class="mb-2">{{product.name}}</h6>
             <p>{{product.shortDescription}}</p>
         </div>
@@ -11,7 +11,17 @@
                 <span class="!text-xs text-orange-300">{{product.discount}}% OFF</span>
                 <span class="!text-lg text-green-500">R${{sellingPrice}}</span>
             </div>
-            <button mat-flat-button color="primary">Buy Now</button>
+            <button mat-fab color="warn" (click)="addToWishList(product)">
+                @if (isInWishList(product)) {
+                    <mat-icon class="text-red-500">favorite</mat-icon>
+                }@else {
+                    <mat-icon class="text-red-500">favorite_border</mat-icon>
+                }                
+            </button>
+            <button mat-fab color="primary">
+                <mat-icon>add_shopping_cart</mat-icon>
+            </button>  
+            
         </div>
     </div>
 </div>           

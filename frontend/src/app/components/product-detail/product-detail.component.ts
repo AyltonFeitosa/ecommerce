@@ -5,11 +5,13 @@ import { Product } from '../../types/product';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { ProductsComponent } from '../manage/products/products.component';
+import { WishlistService } from '../../services/wishlist.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [MatButtonModule, ProductCardComponent],
+  imports: [MatButtonModule, ProductCardComponent, MatIconModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
@@ -44,4 +46,32 @@ export class ProductDetailComponent {
   get sellingPrice(){
     return Math.round(this.product.price - (this.product.price*this.product.discount)/100)
   }
+
+  wishlistService=inject(WishlistService);
+  addToWishList(product:Product) {
+    console.log(product);
+    if (this.isInWishList(product)) {
+      this.wishlistService
+      .removeFromWishList(product._id!)
+      .subscribe((result) => {
+      this.wishlistService.init();
+      });
+    }else{
+      this.wishlistService
+      .addInWishList(product._id!)
+      .subscribe((result) => {
+        this.wishlistService.init();
+      })
+    }
+    
+  }
+
+  isInWishList(product: Product){
+    let isExits = this.wishlistService.wishlist.find(
+      (x) => x._id == product._id
+    );
+    if (isExits) return true;
+    else return false;
+  }
 }
+
