@@ -7,6 +7,7 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 import { ProductsComponent } from '../manage/products/products.component';
 import { WishlistService } from '../../services/wishlist.service';
 import { MatIconModule } from '@angular/material/icon';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -72,6 +73,29 @@ export class ProductDetailComponent {
     );
     if (isExits) return true;
     else return false;
+  }
+
+  cartService = inject(CartService)
+  addToCart(product: Product) {
+    console.log(product);
+      if (!this.isProductInCart(product._id!)) { //validar se o produto esta no carrinho
+      this.cartService.addToCart(product._id!, 1).subscribe(() => { //caso n esteja vai ser adicionado
+        this.cartService.init();
+      });
+    } else { //se ja estiver no carrinho removo ele 
+      this.cartService.removeFromCart(product._id!).subscribe(() => {
+        this.cartService.init();
+      });
+    }
+  }
+
+  isProductInCart(productId: string) {
+    if (this.cartService.items.find((x) => x.product._id == productId)) { 
+      // Verifico se o produto com o productId passado já está no carrinho
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

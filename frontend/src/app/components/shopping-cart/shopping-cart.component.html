@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <div class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">🛒 Carrinho de Compras</h1>
+
+        <!-- Seção do Carrinho -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            @for (item of cartItems; track $index) {
+            <!-- Item do Carrinho -->
+            <div class="flex flex-col sm:flex-row items-center justify-between p-6 border-b">
+                <div class="flex items-center w-full sm:w-2/3">
+                    <img [src]="item.product.images[0]" alt="Produto" 
+                        class="w-28 h-28 object-contain rounded-lg shadow-md bg-gray-100 p-2">
+                    
+                    <div class="ml-6">
+                        <h3 class="text-lg font-semibold text-gray-900">{{item.product.name}}</h3>
+                        <div class="flex gap-2 items-baseline mt-2">
+                            <span class="text-lg text-gray-500 line-through">R${{ item.product.price }}</span>
+                            <span class="text-sm text-orange-500 font-semibold"> {{ item.product.discount }}% OFF </span>
+                            <span class="text-lg font-bold text-green-600"> R${{ sellingPrice(item.product)}} </span>
+                        </div>
+                        <div class="mt-1 text-gray-700">
+                            <span class="font-medium">Subtotal:</span>
+                            <span class="font-bold text-green-700">R${{ (sellingPrice(item.product)) * (item.quantity)}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controle de Quantidade -->
+                <div class="flex items-center w-full sm:w-1/3 justify-center sm:justify-end mt-4 sm:mt-0">       
+                    <div class="flex items-center space-x-2">
+                        <button (click)="addToCart(item.product._id!, -1)" 
+                            class="text-lg bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition shadow-md">-</button>
+                        <span class="text-lg font-semibold text-gray-900">{{item.quantity}}</span>
+                        <button (click)="addToCart(item.product._id!,1)" 
+                            class="text-lg bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition shadow-md">+</button>
+                        <button class="text-red-500 hover:text-red-700 ml-4 font-semibold" (click)="removeItem(item)">
+                            🗑 Remover
+                        </button>
+                    </div>             
+                </div>
+            </div>
+            }
+        </div>
+        <!-- Fim da Seção do Carrinho -->
+
+        <!-- Resumo da Compra -->
+        <div class="mt-8 bg-white shadow-lg rounded-lg overflow-hidden p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Resumo da Compra</h2>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg text-gray-700">Total:</span>
+                <span class="text-lg font-bold text-green-700">R${{totalAmmount}}</span>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <button class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition">
+                    🛍 Finalizar Compra
+                </button>
+                <button class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold shadow-md transition">
+                    🛒 Continuar Comprando
+                </button>
+            </div>
+        </div>
+        <!-- Fim do Resumo da Compra -->
+
+    </div>
+
+</body>
+</html>

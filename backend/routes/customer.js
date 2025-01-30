@@ -3,6 +3,7 @@ const { getNewProducts, getProductForList, getProductForListing, getProduct, get
 const { getCategories } = require("../handlers/category-handler");
 const { getBrands } = require("../handlers/brand-handler");
 const { getWishlist, addToWishList, removeFromWishList } = require("../handlers/wishlist-handler");
+const { getCartItems, addToCart, removefromCart } = require("../handlers/shopping-cart-handler.");
 const router=express.Router();
 
 router.get("/new-products", async (req,res)=>{
@@ -68,6 +69,29 @@ router.delete('/wishlists/:id', async (req,res)=>{
     res.send({message: 'ok'});
 })
 
+router.get('/carts', async (req,res)=>{
+    console.log(req.user); 
+    const userId= req.user.id; // recebe o id do usuario que fez a requisicao
+    const items = await getCartItems(userId); //chama a func com os dados do userid como parametro
+    res.send(items) //retorna o json dos carrinho
+})
+
+router.post('/carts/:id', async (req,res)=>{
+    console.log(req.user); //exibe dados do user
+    const userId= req.user.id; //armazeno o id do user na variavel 
+    const productId = req.params.id; //armazena o id do produto e passa via url 
+    const quantity = req.body.quantity; //quantidade
+    const items = await addToCart(userId, productId, quantity); //chama func com parametros 
+    res.send(items);
+})
+
+router.delete('/carts/:id', async (req,res)=>{
+    console.log(req.user);
+    const userId= req.user.id;
+    const productId = req.params.id;
+    const items = await removefromCart(userId, productId);
+    res.send(items);
+})
 
 
 

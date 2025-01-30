@@ -30,7 +30,12 @@
                     <mat-icon class="text-red-500">favorite_border</mat-icon> <span>Adicionar a lista de Desejos</span>
                 }                
             </button>
-            <button mat-raised-button color="primary" class="shadow">Adicionar ao carrinho</button>
+            @if(isProductInCart(product._id!)){
+                <button mat-raised-button color="primary" class="shadow" (click)="addToCart(product)"><mat-icon>remove_shopping_cart</mat-icon>remover do carrinho</button>
+            }@else {
+                <button mat-raised-button color="primary" class="shadow" (click)="addToCart(product)">
+                <mat-icon>add_shopping_cart</mat-icon>Adicionar ao carrinho</button>
+            }
            </div>
         </div>
       </div>
