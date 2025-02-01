@@ -42,6 +42,5 @@ export class HomeComponent {
       this.newProducts = result;
       console.log(this.newProducts)
     })
-    this.wishlistService.init();
-    this.cartService.init();
+    
   }}

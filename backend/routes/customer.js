@@ -1,9 +1,10 @@
 const express = require("express");
-const { getNewProducts, getProductForList, getProductForListing, getProduct, getFeaturedProducts } = require("../handlers/product-handler");
+const { getNewProducts, getProductForList, getProductForListing, getProduct, getFeaturedProducts,  } = require("../handlers/product-handler");
 const { getCategories } = require("../handlers/category-handler");
 const { getBrands } = require("../handlers/brand-handler");
 const { getWishlist, addToWishList, removeFromWishList } = require("../handlers/wishlist-handler");
-const { getCartItems, addToCart, removefromCart } = require("../handlers/shopping-cart-handler.");
+const { getCartItems, addToCart, removefromCart, clearCart } = require("../handlers/shopping-cart-handler.");
+const { addOrder, getCustomerOrders } = require("../handlers/order-handler")
 const router=express.Router();
 
 router.get("/new-products", async (req,res)=>{
@@ -93,7 +94,21 @@ router.delete('/carts/:id', async (req,res)=>{
     res.send(items);
 })
 
+router.post('/order', async (req,res) =>{
+    const userId = req.user.id;
+    const order = req.body;
+    await addOrder(userId, order);
+    await clearCart(userId);    
+    return res.send({
+        message:"Pedido Criado"
+    });
+})
 
+router.get('/orders', async (req,res) =>{
+    const userId = req.user.id;
+    const orders = await getCustomerOrders(userId);   
+    return res.send(orders);
+})
 
 
 
