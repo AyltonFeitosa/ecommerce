@@ -17,6 +17,7 @@ import { CostumerProfileComponent } from './components/costumer-profile/costumer
 import { WishlistsComponent } from './components/wishlists/wishlists.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { CustomerOrdersComponent } from './components/customer-orders/customer-orders.component';
+import { OrdersComponent } from './components/manage/orders/orders.component';
 
 
 export const routes: Routes = [
@@ -73,6 +74,11 @@ export const routes: Routes = [
     {
         path: "admin/products/:id",
         component: ProductFormComponent,
+        canActivate:[adminGuard]
+    },
+    {
+        path: "admin/orders",
+        component: OrdersComponent,
         canActivate:[adminGuard]
     },
     {
