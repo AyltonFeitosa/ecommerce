@@ -1,42 +1,72 @@
-<header class="site-header">
-    <div class="top-bar">
-        <div class="logo cursor-pointer" routerLink="/">
-            <!-- <img src="logo.png" alt="Website Logo"> -->
-             <span>MyShopName</span>
+<header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 lg:px-8 flex justify-between items-center py-4">
+        
+        <!-- Logo -->
+        <div class="flex items-center cursor-pointer text-xl font-semibold text-blue-500" routerLink="/">
+            <span>AyltonStore</span>
         </div>
-        <div class="search-bar">
-            <input type="text"
-             placeholder="Search..." 
-             [(ngModel)]="searchTerm"
-             (keyup.enter)="onSearch($event)">
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="profile flex gap-2 items-center">
 
-            @if (authService.isAdmin) {
-                <a routerLink="/admin">{{authService.userName}}</a>
-            }@else {
-                <a routerLink="/profile">{{authService.userName}}</a>
-            }
+        <!-- Barra de Pesquisa -->
+        <div class="hidden md:flex items-center bg-gray-200 rounded-lg px-3 py-1">
+            <input type="text" placeholder="Search..." 
+                   class="bg-transparent text-gray-700 focus:outline-none px-2"
+                   [(ngModel)]="searchTerm"
+                   (keyup.enter)="onSearch($event)">
+            <button type="submit" class="ml-2 text-gray-500 hover:text-blue-500 transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- Ícones do Perfil -->
+        <div class="flex items-center gap-4">
+            
             @if (authService.isLoggedIn) {
+                
+                <!-- Nome do usuário (Perfil ou Admin) -->
+                <a routerLink="{{ authService.isAdmin ? '/admin' : '/profile' }}" class="hover:text-blue-500 transition">
+                    {{ authService.userName }}
+                </a>
+
                 @if (!authService.isAdmin) {
-            <a routerLink="/wishlists"><mat-icon class="text-red-500">favorite</mat-icon></a>
-            <a routerLink="/cart"><mat-icon class="text-white">shopping_cart</mat-icon></a>
-            <a routerLink="/orders">Orders</a>
-            }
-            <a (click)="logout()" class="cursor-pointer ml-5">Sair</a>            
+                    <!-- Wishlist -->
+                    <a routerLink="/wishlists" class="relative hover:text-red-500 transition">
+                        <mat-icon class="text-red-500">favorite</mat-icon>
+                    </a>
+                    
+                    <!-- Carrinho -->
+                    <a routerLink="/cart" class="relative hover:text-green-500 transition">
+                        <mat-icon class="text-green-500">shopping_cart</mat-icon>
+                    </a>
+
+                    <!-- Pedidos -->
+                    <a routerLink="/orders" class="relative hover:text-yellow-500 transition">
+                        <mat-icon class="text-yellow-500">local_shipping</mat-icon>
+                    </a>
+                }
+
+                <!-- Logout -->
+                <a (click)="logout()" class="cursor-pointer hover:text-red-500 transition">
+                    <mat-icon class="text-gray-700">logout</mat-icon>
+                </a>
+            
             }@else {
-                <a routerLink="/login" class="cursor-pointer ml-5">Entrar</a>
-                <a routerLink="/register" class="cursor-pointer ml-5">Registre-se</a>
+                <!-- Links de Login e Registro para usuários não autenticados -->
+                <a routerLink="/login" class="hover:text-blue-500 transition">Entrar</a>
+                <a routerLink="/register" class="hover:text-blue-500 transition">Registre-se</a>
             }
         </div>
     </div>
+
+    <!-- Menu de Categorias -->
     @if (authService.isLoggedIn) {
-    <nav class="category-menu">
-        <ul>
-            @for (category of categoryList; track $index) {
-                <li (click)="searchCategory(category._id!)" class="cursor-pointer"><a>{{category.name}}</a></li>           }
-        </ul>
-    </nav>
-}
+        <nav class="bg-gray-100 border-t border-gray-300">
+            <ul class="max-w-7xl mx-auto px-4 lg:px-8 flex justify-center gap-6 py-2 text-sm text-gray-700">
+                @for (category of categoryList; track $index) {
+                    <li (click)="searchCategory(category._id!)" class="cursor-pointer hover:text-blue-500 transition">
+                        <a>{{category.name}}</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </header>

@@ -1,36 +1,42 @@
-<div class="px-20">
+<div class="px-4 md:px-20">
 
-    <div class="shadow">
+    <!-- Carousel Responsivo -->
+    <div class="shadow mb-8">
         <owl-carousel-o [options]="customOptions">
           @for (item of bannerImages; track $index) {
             <ng-template carouselSlide>
-              <div class="relative flex flex-col items-center cursor-pointer ml-5" [routerLink]="'product/'+item._id">
-                    <img [src]="item.images[0]" alt="images" />
-                    <span>{{ item.name }}</span>
+              <div class="relative flex flex-col items-center cursor-pointer mx-3 sm:mx-0" [routerLink]="'product/'+item._id">
+                    <div class="w-full h-64 md:h-80 lg:h-96 bg-white flex justify-center items-center rounded-lg shadow-lg">
+                        <img [src]="item.images[0]" alt="images" 
+                             class="max-w-full max-h-full object-contain"/>
+                    </div>
+                    <span class="mt-2 text-lg sm:text-xl font-medium text-gray-800">
+                        {{ item.name }}
+                    </span>
               </div>
             </ng-template>
           }
         </owl-carousel-o>
-      </div>
+    </div>
       
-
+    <!-- Featured Products -->
     <div class="m-4">
-        <h4 class="text-2x1 font-bold">Featured Products</h4>
-        <div class="flex justify-between gap-2">
+        <h4 class="text-3xl font-bold mb-4 text-gray-800">Featured Products</h4>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             @for (product of featuredProducts; track $index) {
-                <div class="w-3/12 shadow">
+                <div class="w-full shadow-lg hover:shadow-xl rounded-lg transition-all">
                     <app-product-card [product]="product"></app-product-card>             
                 </div>
             }
         </div>
     </div>
 
-
+    <!-- New Products -->
     <div class="m-4">
-        <h4 class="text-2x1 font-bold">New Products</h4>
-        <div class="flex justify-between gap-2">
+        <h4 class="text-3xl font-bold mb-4 text-gray-800">New Products</h4>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             @for (product of newProducts; track $index) {
-                <div class="w-3/12 shadow">
+                <div class="w-full shadow-lg hover:shadow-xl rounded-lg transition-all">
                     <app-product-card [product]="product"></app-product-card>
                 </div>
             }

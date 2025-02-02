@@ -1,31 +1,52 @@
-<div class="border-r-4 w-full h-full flex flex-col shadow-lg cursor-pointer">
-    <img [src]="product.images[0]" alt="Product Image" class="w-full h-52 object-cover"  [routerLink]="'/product/'+ product._id">
-    <div class="p-4 flex flex-1 flex-col justify-between h-full">
-        <div  [routerLink]="'/product/'+ product._id">
-            <h6 class="mb-2">{{product.name}}</h6>
-            <p>{{product.shortDescription}}</p>
+<div class="border rounded-lg w-full h-full flex flex-col shadow-lg cursor-pointer bg-white hover:shadow-xl transition">
+    
+    <!-- Imagem do Produto -->
+    <div class="w-full h-56 bg-gray-100 flex justify-center items-center rounded-t-lg overflow-hidden">
+        <img [src]="product.images[0]" 
+             alt="Product Image" 
+             class="max-w-full max-h-full object-contain"
+             [routerLink]="'/product/'+ product._id">
+    </div>
+
+    <!-- Conteúdo do Produto -->
+    <div class="p-4 flex flex-1 flex-col justify-between">
+        
+        <!-- Nome e Descrição -->
+        <div [routerLink]="'/product/'+ product._id" class="hover:text-blue-500 transition">
+            <h6 class="text-lg font-semibold mb-1">{{product.name}}</h6>
+            <p class="text-sm text-gray-600">{{product.shortDescription}}</p>
         </div>
-        <div class="flex justify-between items-baseline" >
-            <div class="flex gap-2 items-baseline">
-                <span class="!text-lg text-gray-400"><s>R${{product.price}}</s></span>
-                <span class="!text-xs text-orange-300">{{product.discount}}% OFF</span>
-                <span class="!text-lg text-green-500">R${{sellingPrice}}</span>
-            </div>
-            <button mat-fab color="warn" (click)="addToWishList(product)">
-                @if (isInWishList(product)) {
-                    <mat-icon class="text-red-500">favorite</mat-icon>
-                }@else {
-                    <mat-icon class="text-red-500">favorite_border</mat-icon>
-                }                
-            </button>
-            <button mat-fab color="primary" (click)="addToCart(product)">
-                @if (isProductInCart(product._id!)) {
-                    <mat-icon>remove_shopping_cart</mat-icon>
-                }@else {
-                    <mat-icon>add_shopping_cart</mat-icon>
-                }                
-            </button>  
+
+        <!-- Preço e Botões -->
+        <div class="flex justify-between items-center mt-4">
             
+            <!-- Preço -->
+            <div class="flex gap-2 items-baseline">
+                <span class="text-md text-gray-400"><s>R${{product.price}}</s></span>
+                <span class="text-sm text-orange-500 font-semibold">{{product.discount}}% OFF</span>
+                <span class="text-lg text-green-500 font-bold">R${{sellingPrice}}</span>
+            </div>
+
+            <!-- Botões -->
+            <div class="flex gap-2">
+                <!-- Favoritar -->
+                <button class="p-2 rounded-full bg-red-100 hover:bg-red-300 transition" (click)="addToWishList(product)">
+                    @if (isInWishList(product)) {
+                        <mat-icon class="text-red-500">favorite</mat-icon>
+                    }@else {
+                        <mat-icon class="text-gray-500">favorite_border</mat-icon>
+                    }
+                </button>
+                
+                <!-- Carrinho -->
+                <button class="p-2 rounded-full bg-blue-100 hover:bg-blue-300 transition" (click)="addToCart(product)">
+                    @if (isProductInCart(product._id!)) {
+                        <mat-icon class="text-gray-700">remove_shopping_cart</mat-icon>
+                    }@else {
+                        <mat-icon class="text-gray-700">add_shopping_cart</mat-icon>
+                    }
+                </button>
+            </div>
         </div>
     </div>
-</div>           
+</div>
