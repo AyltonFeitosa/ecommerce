@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: "http://myshop.test"
+    apiUrl: "https://ecommerce-sc4c.onrender.com"
 };
