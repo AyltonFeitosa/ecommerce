@@ -23,16 +23,23 @@ app.use('/product', verifyToken, isAdmin, productRoutes);
 app.use('/customer', verifyToken, customerRoutes);
 app.use('/auth', authRoutes);
 
-async function connectDb(params) {
-    await mongoose.connect("mongodb://localhost:27017",{
-        dbName: "ecommerce"
-    })
-    console.log("mongodb connected")
+// Substitua a URL de conexão local para o MongoDB Atlas
+async function connectDb() {
+    const mongoURI = "mongodb+srv://ayltonof36:Banestes2@mymongodb.veyxx.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb";
+    try {
+        await mongoose.connect(mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            dbName: "ecommerce" // Nome do banco de dados no MongoDB Atlas
+        });
+        console.log("MongoDB conectado com sucesso!");
+    } catch (err) {
+        console.error("Erro de conexão com o MongoDB:", err);
+    }
 }
-connectDb().catch((err)=>{
-    console.error(err);
-})
 
-app.listen(port,()=>{
-    console.log("Server running on port", 3000)
-})
+connectDb();
+
+app.listen(port, () => {
+    console.log("Servidor rodando na porta", port);
+});
